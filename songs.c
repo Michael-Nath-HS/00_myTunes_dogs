@@ -2,12 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <time.h>
-
-struct song_node {
-    char title[100];
-    char artist[100];
-    struct song_node *next;
-};
+#include "songs.h"
 
 struct song_node *new_node(char *artist, char *title) {
 
@@ -21,14 +16,7 @@ struct song_node *new_node(char *artist, char *title) {
 }
 
 void print_song(struct song_node *x) {
-    for (int i = 0; *(x -> artist + i); i++) {
-        printf("%c", *(x -> artist + i));
-    }
-    printf(", ");
-    for (int i = 0; *(x -> title + i); i++) {
-        printf("%c", *(x -> title + i));
-    }
-    printf("\n");
+    printf("%s, %s", x -> artist, x -> title);
     return;
 }
 
