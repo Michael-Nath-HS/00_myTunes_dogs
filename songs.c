@@ -20,13 +20,14 @@ void print_song(struct song_node *x) {
     return;
 }
 
+// insert nodes at the front
 struct song_node *insert_front(struct song_node *p, char *artist, char *title) {
     struct song_node *front = new_node(artist, title);
     front -> next = p;
     return front;
 }
 
-
+// insert nodes in order alphabetical by Artist then by Song
 struct song_node *insert_order(struct song_node *p, char *title, char *artist) {
     struct song_node *new = new_node(artist, title);
     if (p == NULL) {
@@ -40,6 +41,7 @@ struct song_node *insert_order(struct song_node *p, char *title, char *artist) {
     return p;
 }
 
+// print the entire list
 void print_list(struct song_node *p) {
     if (p == NULL) {
         printf("No songs :(\n");
@@ -53,6 +55,7 @@ void print_list(struct song_node *p) {
     return;
 }
 
+// find and return a pointer to a node based on artist and song name
 struct song_node *find_song(struct song_node *p, char *artist, char *title) {
     if (p == NULL) {
         return NULL;
@@ -66,6 +69,7 @@ struct song_node *find_song(struct song_node *p, char *artist, char *title) {
     return NULL;
 }
 
+// find and return a pointer to the first song of an artist based on artist name
 struct song_node *find_first_song(struct song_node *p, char *artist) {
     if (p == NULL) {
         return NULL;
@@ -79,6 +83,8 @@ struct song_node *find_first_song(struct song_node *p, char *artist) {
     return NULL;
 }
 
+
+// Return a pointer to random element in the list.
 struct song_node *random_song(struct song_node *p) {
     srand(time(NULL));
     struct song_node *res = p;
@@ -92,6 +98,7 @@ struct song_node *random_song(struct song_node *p) {
     return res;
 }
 
+// remove a single specified node from the list
 struct song_node *remove_song(struct song_node *p, char *artist, char* title) {
     if (p == NULL) {
         return NULL;
@@ -105,6 +112,7 @@ struct song_node *remove_song(struct song_node *p, char *artist, char* title) {
     return p;
 }
 
+// free the entire list
 struct song_node *free_songs(struct song_node *p) {
     if (p -> next != NULL) {
         free_songs(p -> next);
