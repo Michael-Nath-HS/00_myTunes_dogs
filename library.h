@@ -8,3 +8,4 @@ struct library
 
 struct library * add_song(struct library * library, struct song_node * song);
 struct library * create_library();
+struct song_node * get_song(struct library * library, char * title, char * artist);

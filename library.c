@@ -22,15 +22,39 @@ int get_index_from_author_name(char *artist)
     }
 }
 
-// add_song: takes a pointer to a song and appropriately adds it to the music library
-struct library *add_song(struct library *library, struct song_node *song)
+struct song_node *get_library_slot(struct library *library, char *artist)
 {
     int index;
-    // get slot of the incoming song 
-    index = get_index_from_author_name(song->artist);
+    // get slot of the incoming song
+    index = get_index_from_author_name(artist);
     // retreive the linked list corresponding to that slot
     struct song_node *cur_list;
     cur_list = library->albums[index];
+    return cur_list;
+};
+
+// add_song: takes a pointer to a song and appropriately adds it to the music library
+struct library *add_song(struct library *library, struct song_node *song)
+{
+    struct song_node *cur_list = get_library_slot(library, song->artist);
+    struct song_node *retreived_song;
     // use the insert_order function to add the song to the specific linked_list
     insert_order(cur_list, song->title, song->artist);
+    return library;
 };
+
+struct song_node *get_song(struct library *library, char *title, char *artist)
+{
+    struct song_node *cur_list = get_library_slot(library, artist);
+    struct song_node *retreived_song;
+    retreived_song = find_song(cur_list, artist, title);
+    return retreived_song;
+}
+
+struct song_node *get_first_song_by_artist(struct library *library, char *artist)
+{
+    struct song_node *cur_list = get_library_slot(library, artist);
+    struct song_node *retreived_song;
+    retreived_song = find_first_song(cur_list, artist);
+    return retreived_song;
+}
