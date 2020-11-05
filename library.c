@@ -4,8 +4,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
-// redefining the RAND_MAX macro used in the rand() function
-#define RAND_MAX 27
+
 
 // creating an alphabet array that stores all the lowercase letters in the alphabet
 char alphabet[27] = "abcdefghijklmnopqrstuvwxyz";
@@ -118,11 +117,11 @@ void shuffle_songs(struct library *library, int num_songs)
     int trials = 0;
     while (trials < num_songs)
     {
-        index = rand();
+        index = (rand() % 27);
         // this makes sure that the same song is not being printed out
         while (song_played[index])
         {
-            index = rand();
+            index = (rand() % 27);
         }
         // once an un-printed song-linked-list has been found, set it to 'occupied'
         song_played[index] = 1;
