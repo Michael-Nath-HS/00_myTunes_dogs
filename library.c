@@ -43,20 +43,25 @@ struct song_node *get_library_slot(struct library *library, char *artist)
 struct library *add_song(struct library *library, struct song_node *song)
 {
     struct song_node *cur_list = get_library_slot(library, song->artist);
-    struct song_node *retreived_song;
     // use the insert_order function to add the song to the specific linked_list
-    insert_order(cur_list, song->title, song->artist);
+    library->albums[get_index_from_author_name(song->artist)] = insert_order(cur_list, song->artist, song->title);
     return library;
 };
 
 // get_song: takes title and artist, and gets the desired song from the library
-struct song_node *get_song(struct library *library, char *title, char *artist)
+void get_song(struct library *library, char *title, char *artist)
 {
     struct song_node *cur_list = get_library_slot(library, artist);
     struct song_node *retreived_song;
     retreived_song = find_song(cur_list, artist, title);
-    return retreived_song;
+    if(retreived_song != NULL) {
+        printf("Found song! Song: ");
+        print_song(retreived_song);
+    } else {
+        printf("%s\n", "Could not find song :(");
+    }
 }
+
 // get_first_song_by_artist: takes an artist's name and gets his or her lexocraphical first song in the library
 struct song_node *get_first_song_by_artist(struct library *library, char *artist)
 {
@@ -81,13 +86,11 @@ void print_songs_by_letter(struct library *library, char letter)
 void print_songs_by_artist(struct library *library, char *artist)
 {
     struct song_node *cur_list = get_library_slot(library, artist);
-    while (cur_list)
-    {
-        cur_list = find_first_song(cur_list, artist);
-        if (cur_list)
-        {
-            print_song(cur_list);
-        }
+    cur_list = find_first_song(cur_list, artist);
+    while(strcmp(cur_list->artist, artist) == 0){
+        print_song(cur_list);
+        if(cur_list->next == NULL) return;
+        cur_list = cur_list->next;
     }
 }
 // print_library: prints out all the songs in the library
@@ -98,13 +101,14 @@ void print_library(struct library *library)
     {
         if (i == 26)
         {
-            printf("Misc:\n\n");
+            printf("Misc: ");
         }
         else
         {
-            printf("%c:\n\n", alphabet[i]);
+            printf("%c: ", alphabet[i]);
         }
         print_list(library->albums[i]);
+        printf("\n");
     }
 }
 
@@ -112,32 +116,40 @@ void print_library(struct library *library)
 void shuffle_songs(struct library *library, int num_songs)
 {
     srand(time(NULL));
-    char song_played[27];
-    int index;
-    int trials = 0;
-    while (trials < num_songs)
-    {
-        index = (rand() % 27);
-        // this makes sure that the same song is not being printed out
-        while (song_played[index])
-        {
-            index = (rand() % 27);
-        }
-        // once an un-printed song-linked-list has been found, set it to 'occupied'
-        song_played[index] = 1;
-        struct song_node *chosen_song_list;
-        chosen_song_list = library->albums[index];
-        struct song_node *chosen_song;
-        chosen_song = random_song(chosen_song_list);
-        print_song(chosen_song);
-        ++trials;
+    int total = 0;
+    int i = 26;
+    while(i >= 0){
+        if((library->albums)[i] != NULL) total++;
+        i--;
     }
+
+    if(total == 0){
+        printf("%s\n", "No songs to shuffle :(");
+        return;
+    }
+    struct song_node **my_array = calloc(total, sizeof(void*));
+
+    i = 26;
+    int k = 0;
+    while(i >= 0){
+        if((library->albums)[i] != NULL) {
+            my_array[k] = (library->albums)[i];
+            k++;
+        }
+        i--;
+    }
+
+    int j = 0;
+    for(j = 0; j < num_songs; j++){
+        print_song((my_array[rand() % total]));
+    }
+    free(my_array);
 }
 // delete_song: deletes a song with specified title and artist from the library
 struct library *delete_song(struct library *library, char *artist, char *title)
 {
     struct song_node *song_list = get_library_slot(library, artist);
-    remove_song(song_list, artist, title);
+    library->albums[get_index_from_author_name(artist)] = remove_song(song_list, artist, title);
     return library;
 }
 // free_library: clears the music library, including its embedded song_node linked lists.
@@ -147,9 +159,19 @@ struct library *free_library(struct library *library)
     struct song_node *song_list;
     for (i = 0; i < 27; i++)
     {
-        song_list = library->albums[i];
+        song_list = (library->albums)[i];
+        if(song_list == NULL) continue;
         free_songs(song_list);
     }
     free(library);
     return NULL;
+}
+
+struct library *create_library(){
+    struct library *library_out = malloc(sizeof(struct library));
+    int i;
+    for(i = 0; i < 27; i++){
+        (library_out->albums)[i] = NULL;
+    }
+    return library_out;
 }
