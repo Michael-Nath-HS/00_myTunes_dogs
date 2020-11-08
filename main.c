@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include "library.h"
 
-int main(void){
+int main(void)
+{
     printf("LINKED LIST TESTS\n====================================\n");
     struct song_node *songList = new_node("abba", "the winner takes it all");
     printf("\n1. Testing print_song(): \n");
@@ -120,29 +121,22 @@ int main(void){
     printf("\n\n7. Testing delete_song()\n");
     printf("- %s -\n", "Printing all songs made by artist with names starting with \"f\"");
     print_songs_by_letter(myLibrary, 'f');
-    printf("\n %s -\n", "       = Deleting [far caspian: a dream of you]");
+    printf("\n\n %s -\n", "= Deleting [far caspian: a dream of you]");
     delete_song(myLibrary, "far caspian", "a dream of you");
     printf("- %s -\n", "Printing all songs made by artist with names starting with \"f\"");
     print_songs_by_letter(myLibrary, 'f');
-    printf("\n %s -\n", "       = Deleting [fleet foxes: blue ridge mountains]");
+    printf("\n\n %s -\n", "= Deleting [fleet foxes: blue ridge mountains]");
     delete_song(myLibrary, "fleet foxes", "blue ridge mountains");
     printf("- %s -\n", "Printing all songs made by artist with names starting with \"f\"");
     print_songs_by_letter(myLibrary, 'f');
 
     printf("\n\n%s\n", "8. Testing Shuffle: Shuffling 10 songs");
     shuffle_songs(myLibrary, 10);
+    printf("\n\n%s\n", "9. Testing Shuffle Again for 10 songs");
+    shuffle_songs(myLibrary, 10);
 
-    printf("\n\n%s\n", "9. Testing free_library(): freeing whole library");
+    printf("\n\n%s\n", "10. Testing free_library(): freeing whole library");
     myLibrary = free_library(myLibrary);
     printf("\n%s\n", "Library has been freed.");
     printf("%s\n", myLibrary == NULL ? "If you see this message, that means the library is now NULL" : "If you see this message, that means something went wrong.");
-
-
-
-
-
-
-
-
-
 }

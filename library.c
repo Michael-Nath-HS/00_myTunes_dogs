@@ -115,7 +115,7 @@ void print_library(struct library *library)
 // shuffle_songs: takes a number of songs to be printed and shuffles all songs in a library and prints them.
 void shuffle_songs(struct library *library, int num_songs)
 {
-    srand(time(NULL));
+    
     int total = 0;
     int i = 26;
     while(i >= 0){
@@ -168,6 +168,7 @@ struct library *free_library(struct library *library)
 }
 
 struct library *create_library(){
+    srand(time(NULL));
     struct library *library_out = malloc(sizeof(struct library));
     int i;
     for(i = 0; i < 27; i++){
