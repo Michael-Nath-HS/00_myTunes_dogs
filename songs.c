@@ -27,7 +27,27 @@ struct song_node *insert_front(struct song_node *p, char *artist, char *title) {
     return front;
 }
 
+struct song_node *insert_order(struct song_node *p, char *artist, char *title) {
+    struct song_node *new = new_node(artist, title);
+
+    if (p == NULL) {
+        return new;
+    }
+    else if (strcmp(p -> artist, artist) > 0) {
+        new -> next = p;
+        return new;
+    }
+    else if (strcmp(p -> artist, artist) == 0 && strcmp(p -> title, title) > 0) {
+        new -> next = p;
+        return new;
+    }
+    
+    p -> next = insert_order(p -> next, artist, title);
+    return p;
+}
+
 // insert nodes in order alphabetical by Artist then by Song
+/*
 struct song_node *insert_order(struct song_node *p, char *artist, char *title) {
     struct song_node *new_one = new_node(artist, title);
     if (p == NULL) {
@@ -68,6 +88,8 @@ struct song_node *insert_order(struct song_node *p, char *artist, char *title) {
     }
     printf("This should never display\n");
 }
+*/
+
 
 // print the entire list
 void print_list(struct song_node *p) {
