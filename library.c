@@ -63,12 +63,17 @@ void get_song(struct library *library, char *title, char *artist)
 }
 
 // get_first_song_by_artist: takes an artist's name and gets his or her lexocraphical first song in the library
-struct song_node *get_first_song_by_artist(struct library *library, char *artist)
+void *get_first_song_by_artist(struct library *library, char *artist)
 {
     struct song_node *cur_list = get_library_slot(library, artist);
     struct song_node *retreived_song;
     retreived_song = find_first_song(cur_list, artist);
-    return retreived_song;
+    if(retreived_song != NULL) {
+        printf("Found song! Song: ");
+        print_song(retreived_song);
+    } else {
+        printf("%s\n", "Could not find song :(");
+    }
 }
 
 // print_songs_by_letter: prints out all songs under a given album.
