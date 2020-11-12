@@ -148,15 +148,17 @@ int main(void)
     print_songs_by_artist(myLibrary, "abba");
     printf("\n%s", "    Printing songs by absofacto: ");
     print_songs_by_artist(myLibrary, "absofacto");
+    printf("\n%s", "    Printing songs by a non-existent artist: ");
+    print_songs_by_artist(myLibrary, "qoiweqwuei");
 
     printf("\n\n5. \nTesting print_songs_by_letter():\n\n");
-    printf("%s\n    ", "Printing all songs made by artist with names starting with \"f\"");
+    printf("%s\n    ", "Printing all songs starting with the letter \"f\"");
     print_songs_by_letter(myLibrary, 'f');
     printf("\n\n");
-    printf("%s\n    ", "Printing all songs made by artist with miscellaneous letter names");
+    printf("%s\n    ", "Printing all songs starting with a miscellaneous letter");
     print_songs_by_letter(myLibrary, '/');
     printf("\n\n");
-    printf("%s\n    ", "Printing all songs made by artist with names starting with \"m\"");
+    printf("%s\n    ", "Printing all songs starting with the letter \"m\"");
     print_songs_by_letter(myLibrary, 'm');
 
     printf("\n\n6. \nTesting get_first_song_by_artist():\n\n");

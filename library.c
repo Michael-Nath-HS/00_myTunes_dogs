@@ -91,6 +91,10 @@ void print_songs_by_letter(struct library *library, char letter)
 void print_songs_by_artist(struct library *library, char *artist)
 {
     struct song_node *cur_list = get_library_slot(library, artist);
+    if(find_first_song(cur_list, artist) == NULL) {
+        printf("Could not find any song under that artist :(");
+        return;
+    };
     cur_list = find_first_song(cur_list, artist);
     while(strcmp(cur_list->artist, artist) == 0){
         print_song(cur_list);
